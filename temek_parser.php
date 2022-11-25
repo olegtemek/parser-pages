@@ -1,6 +1,6 @@
 <?php
 require "vendor/autoload.php";
-header('Content-type: text/html; charset=utf-8');
+
 
 
 use DiDom\Document;
@@ -10,10 +10,10 @@ use DiDom\Document;
 class Parser
 {
 
-  public function __construct($url, $title, $body, $another = null)
+  public function __construct($url, $title, $body, $another = null, $codec = 'windows-1251')
   {
     $this->url = $url;
-    $this->page = new Document($this->url, true, 'windows-1251');
+    $this->page = new Document($this->url, true, $codec);
     $this->title = $title;
     $this->body = $body;
     $this->another = $another;
@@ -66,7 +66,6 @@ class Parser
     echo '<br><br><br><strong>Base URL - <a target="_blank" href="' . $_GET['url'] . '">BASE URL SOURCE</strong>';
     echo '</br></br><a href="/">Go to back</a>';
   }
-
   ?>
 </body>
 
