@@ -1,27 +1,26 @@
 <?php
 require "vendor/autoload.php";
 
-
-
 use DiDom\Document;
-
-
 
 class Parser
 {
 
-  public function __construct($url, $title, $body, $another = null, $codec = 'windows-1251')
+  public function __construct($url, $title, $body, $codec = 'windows-1251')
   {
     $this->url = $url;
     $this->page = new Document($this->url, true, $codec);
     $this->title = $title;
     $this->body = $body;
-    $this->another = $another;
   }
 
   private function queryBuilder($query)
   {
     return $this->page->find($query)[0]->html();
+  }
+
+  private function replaceAttr($query)
+  {
   }
 
   public function getTitle()
@@ -32,11 +31,6 @@ class Parser
   public function getBody()
   {
     return $this->queryBuilder($this->body);
-  }
-
-  public function getAnother()
-  {
-    return $this->queryBuilder($this->another);
   }
 }
 
@@ -57,12 +51,10 @@ class Parser
 
 <body>
   <?php
-  $page = new Parser($_GET['url'], $_GET['title'], $_GET['body'], isset($_GET['another']) ? $_GET['another'] : '');
+  $page = new Parser($_GET['url'], $_GET['title'], $_GET['body'], 'utf-8');
   if (isset($page)) {
     echo $page->getTitle();
     echo $page->getBody();
-
-
     echo '<br><br><br><strong>Base URL - <a target="_blank" href="' . $_GET['url'] . '">BASE URL SOURCE</strong>';
     echo '</br></br><a href="/">Go to back</a>';
   }
